@@ -1,0 +1,28 @@
+
+/*The Complete SQL Bootcamp 2022: Go from Zero to Hero*/
+
+
+/*45 JOIN Challenge Tasks*/
+
+--1
+SELECT district,email FROM customer
+LEFT JOIN address ON address.address_id = customer.address_id
+WHERE district='California'
+
+--2
+SELECT title,first_name,last_name FROM film
+INNER JOIN film_actor ON film.film_id = film_actor.film_id
+INNER JOIN actor ON film_actor.actor_id = actor.actor_id
+WHERE first_name='Nick' AND last_name='Wahlberg'
+
+
+
+/*50 Timestamps and Extract Challenge Tasks*/
+
+--1 付款月份有哪些
+SELECT  DISTINCT TO_CHAR(payment_date,'Month') FROM payment
+
+--2 星期一發生多少付款
+SELECT COUNT(*) AS payment_date_weekday
+FROM payment
+WHERE EXTRACT(dow FROM payment_date)=1
