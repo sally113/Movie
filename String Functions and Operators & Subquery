@@ -1,0 +1,57 @@
+
+
+/*The Complete SQL Bootcamp 2022: Go from Zero to Hero*/
+
+/*52.字符串函數和運算子符號*/
+
+SELECT * FROM customer
+
+--取出姓名長度
+SELECT LENGTH(first_name) 
+FROM customer
+
+--字串連接，使用||
+--串接姓名與姓氏
+SELECT first_name || last_name 
+FROM customer
+--注意.姓名跟姓氏中間沒有空格且沒有欄位名稱，因此需加入空白及別名
+SELECT first_name || ' ' || last_name 
+AS full_name 
+FROM customer
+
+--將字母轉大寫
+SELECT UPPER(first_name) || ' ' || UPPER(last_name) 
+AS full_name 
+FROM customer
+
+--建立客戶電子郵件欄位：取第一個first_name的字母及last_name，並轉換為小寫
+SELECT LOWER(LEFT(first_name,1)) || LOWER(last_name) || '@gmail.com' 
+AS custom_email 
+FROM customer
+
+
+
+/*53.Subquery子查詢*/
+
+--將第一個查詢的結果用在第二個查詢中
+--例如.查詢平均分數>70的學生名字，第一個子查詢計算平均分數，第二個查詢篩選平均分數>70
+SELECT student,grade 
+FROM test_scores
+WHERE grade > (SELECT AVG(grade) FROM test_scores)
+
+--當查詢結果為多個時，使用IN
+--例如.從學生成績表中獲得姓名和成績，姓名在另一張表中
+SELECT student,grade 
+FROM test_scores
+WHERE student IN (SELECT student FROM honor_roll_table)
+
+--EXISTS函數用來檢查子查詢是否存在行(rows)
+--例如.查詢付款金額大於11的顧客姓名
+SELECT first_name,last_name 
+FROM customer AS c
+WHERE EXISTS 
+(SELECT * FROM payment AS p
+WHERE p.customer_id = c.customer_id
+AND amount > 11)
+
+
