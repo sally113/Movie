@@ -1,0 +1,79 @@
+
+
+/*The Complete SQL Bootcamp 2022: Go from Zero to Hero*/
+
+/*58.Assessment Test # 2*/
+
+/*1*/
+SELECT * FROM cd.facilities
+
+/*2*/
+SELECT facilities."name",facilities.membercost FROM cd.facilities
+
+/*3*/
+SELECT * FROM cd.facilities
+WHERE facilities.membercost>0
+
+/*4*/
+SELECT facid, facilities."name",facilities.membercost,monthlymaintenance 
+FROM cd.facilities
+WHERE facilities.membercost>0 AND 
+facilities.membercost< monthlymaintenance*0.02 
+
+/*5*/
+SELECT * FROM cd.facilities
+WHERE facilities."name" LIKE '%Tennis%'
+
+/*6*/
+SELECT * FROM cd.facilities
+WHERE facid IN ('1','5')
+
+/*7*/
+SELECT memid,surname,firstname,joindate  FROM cd.members
+WHERE joindate >= '2012-09-01'
+
+/*8*/
+SELECT DISTINCT surname FROM cd.members
+ORDER BY surname
+LIMIT 10
+
+/*9*/
+SELECT joindate FROM cd.members
+ORDER BY joindate DESC
+LIMIT 1
+
+SELECT MAX(joindate) FROM cd.members
+
+/*10*/
+SELECT COUNT(guestcost) FROM cd.facilities
+WHERE guestcost >= 10
+
+/*11*/
+SELECT facid, SUM(slots) AS Total_slots 
+FROM cd.bookings
+WHERE starttime >= '2012-09-01' AND starttime <= '2012-10-01'
+GROUP BY facid ORDER BY SUM(slots)
+
+/*12*/
+SELECT facid,SUM(slots) AS total_slots FROM cd.bookings
+GROUP BY facid
+HAVING SUM(slots)>1000
+ORDER BY facid 
+
+/*13*/
+SELECT starttime AS "start" ,FA.name
+FROM cd.facilities FA
+INNER JOIN cd.bookings 
+ON FA.facid = cd.bookings.facid
+WHERE FA.name IN ('Tennis Court 1' , 'Tennis Court 2') 
+AND starttime >= '2012-09-21' 
+AND starttime < '2012-09-22'
+ORDER BY starttime
+
+/*14*/
+SELECT starttime 
+FROM cd.members
+INNER JOIN cd.bookings ON
+cd.members.memid = cd.bookings.memid
+WHERE firstname LIKE 'David' 
+AND  surname LIKE 'Farrell'
